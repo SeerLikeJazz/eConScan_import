@@ -1,4 +1,4 @@
-function EEG = pop_importeConScan(filename,filepath)
+function [EEG, command] = pop_importeConScan(filename,filepath)
 % pop_importeConScan() - loads eConScan .bdf files into EEGLAB
 %
 % Usage:
@@ -164,6 +164,28 @@ EEG = eeg_checkset(EEG, 'eventconsistency');
 EEG = eeg_checkset(EEG, 'makeur'); %EEG.urevent
 EEG = eeg_checkset(EEG);
 
+%% history
+if datafilelength > 1
+    cmd1='EEG = pop_importeConScan({';
+    cmd2='''%s''}, ';
+elseif datafilelength == 1
+    cmd1='EEG = pop_importeConScan(';
+    cmd2='''%s'', ';
+else
+    return;
+end
+cmd3=['''%s''' ');'];
+if datafilelength > 0
+    for i=1:datafilelength-1
+        cmd1=[cmd1 '''%s'', '];
+    end
+    cmd1=[cmd1 cmd2];
+    cmd1=[cmd1 cmd3];
+    formatSpec = cmd1;
+    command = sprintf(formatSpec,filename{:},filepath);
+else
+    command = sprintf('EEG = pop_importeConScan(''%s'');',fullFileName);
+end;
 
 function boundaries = findboundaries(event)
 if isfield(event, 'type') & isfield(event, 'latency') & cellfun('isclass', {event.type}, 'char')

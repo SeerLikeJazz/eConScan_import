@@ -19,7 +19,7 @@ function ver = eegplugin_importeConScan(fig, trystrs, catchstrs)
     
     % menu callbacks
     % --------------
-    comcnt = [ trystrs.no_check 'EEG = pop_importeConScan;' catchstrs.new_and_hist ];
+    comcnt = [ trystrs.no_check '[EEG LASTCOM] = pop_importeConScan();' catchstrs.new_and_hist ];
     
     % create menus
     % ------------
